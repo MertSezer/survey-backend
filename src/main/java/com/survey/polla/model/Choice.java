@@ -13,12 +13,51 @@ public class Choice {
     private String text;
     //TODO: version 2
     //private List<User> voters;
-
     @Column(name = "numberOfVotes", nullable = true)
     private int numberOfVotes;
     @Column(name = "percentile", nullable = true)
-    public int percentile;
+    public double percentile;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "survey_id", nullable = false)
     private Survey survey;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public int getNumberOfVotes() {
+        return numberOfVotes;
+    }
+
+    public void setNumberOfVotes(int numberOfVotes) {
+        this.numberOfVotes = numberOfVotes;
+    }
+
+    public double getPercentile() {
+        return percentile;
+    }
+
+    public void setPercentile(double percentile) {
+        this.percentile = percentile;
+    }
+
+    public Survey getSurvey() {
+        return survey;
+    }
+
+    public void setSurvey(Survey survey) {
+        this.survey = survey;
+    }
 }
