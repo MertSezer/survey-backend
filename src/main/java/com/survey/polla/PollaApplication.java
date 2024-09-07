@@ -11,8 +11,6 @@ import java.util.List;
 
 @SpringBootApplication
 public class PollaApplication {
-	@Autowired
-	public static SurveyRepository surveyRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PollaApplication.class, args);

@@ -21,6 +21,9 @@ public class Choice {
     @JoinColumn(name = "survey_id", nullable = false)
     private Survey survey;
 
+    public Choice() {
+    }
+
     public Long getId() {
         return id;
     }

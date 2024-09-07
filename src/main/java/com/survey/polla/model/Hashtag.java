@@ -25,6 +25,10 @@ public class Hashtag {
     private List<Survey> surveys;
     //survey
 
+
+    public Hashtag() {
+    }
+
     public Hashtag(String text) {
         this.text = text;
     }

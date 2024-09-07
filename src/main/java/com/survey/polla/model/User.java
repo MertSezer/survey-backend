@@ -36,6 +36,9 @@ public class User {
     @Column(name = "security_question", nullable = true)
     private String securityQuestion;
 
+    public User() {
+    }
+
     public Long getId() {
         return id;
     }

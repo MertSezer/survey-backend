@@ -8,7 +8,7 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     public User user;
     @Column(name = "numberOfViolations", nullable = true)
@@ -22,6 +22,9 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "survey_id", nullable = false)
     private Survey survey;
+
+    public Comment() {
+    }
 
     public Long getId() {
         return id;

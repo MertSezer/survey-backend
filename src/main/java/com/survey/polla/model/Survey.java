@@ -20,7 +20,7 @@ public class Survey {
     private long endingDate;
     @Column(name = "picture_url", nullable = true)
     private String pictureURL;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User publisherUser;
     //TODO: accessedUsers, likedUsers version2'de ele alınacaktır.
@@ -36,6 +36,9 @@ public class Survey {
     @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private List<Choice> choices;
+
+    public Survey() {
+    }
 
     public Long getId() {
         return id;
