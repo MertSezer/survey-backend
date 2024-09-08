@@ -1,10 +1,7 @@
 package com.survey.polla.service;
-import java.text.SimpleDateFormat;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
-import com.survey.polla.model.*;
+import com.survey.polla.model.entity.*;
 import com.survey.polla.repository.*;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service // @Component, @Configuration

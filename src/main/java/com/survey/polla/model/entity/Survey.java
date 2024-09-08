@@ -1,4 +1,4 @@
-package com.survey.polla.model;
+package com.survey.polla.model.entity;
 
 
 import jakarta.persistence.*;

@@ -1,8 +1,6 @@
-package com.survey.polla.model;
+package com.survey.polla.model.entity;
 
 import jakarta.persistence.*;
-import jdk.jfr.Description;
-import org.w3c.dom.Text;
 
 import java.util.List;
 
