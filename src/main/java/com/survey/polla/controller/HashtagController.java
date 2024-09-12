@@ -6,9 +6,8 @@ import com.survey.polla.service.HashtagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +19,13 @@ public class HashtagController {
     @Autowired
     public HashtagService hashtagService;
 
+    @DeleteMapping("/{id}")
+    public void deleteHashtag(@PathVariable("id") Long hashtagId) {
+        hashtagService.removeHashtag(hashtagId);
+    }
     @GetMapping("/")
     public ResponseEntity<List<HashtagDto>> getAll() {
+
 
         // 2) service.getAll();
         List<Hashtag> hashtagEntityList = hashtagService.getAll();
@@ -33,7 +37,24 @@ public class HashtagController {
         // Sonraki ders: HashtagDto Data Transfer Object.
         //List<User> users = userService.getAll();
         // return ResponseEntity.ok(result);
-        return new  ResponseEntity<>(hashtagDtoList, HttpStatus.OK);
+        return new ResponseEntity<>(hashtagDtoList, HttpStatus.OK);
+    }
+
+    // hashtag yaratsın. Postmapping
+    @PostMapping("/")
+    ResponseEntity<HashtagDto> createHashtag(@RequestBody HashtagDto hashtagDto) {
+        /*
+        Hashtag savedHashtag = hashtagService.saveHashtag(hashtagDto);
+        HashtagDto result = new HashtagDto(savedHashtag.getId(), savedHashtag.getText(), savedHashtag.getDescription());
+        return ResponseEntity.ok(result);
+
+         */
+        // TODO: when creating hashtag, also create gündem, if gündem already exists in hashtag table
+        // return 400 bad request
+        Hashtag hashtag = hashtagService.saveHashtag(hashtagDto);
+        hashtagDto.setId(hashtag.getId());
+        return ResponseEntity.ok(hashtagDto);
+
 
     }
 }
