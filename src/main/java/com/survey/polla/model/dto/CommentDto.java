@@ -1,29 +1,25 @@
-package com.survey.polla.model.entity;
+package com.survey.polla.model.dto;
 
-import jakarta.persistence.*;
+import com.survey.polla.model.entity.Survey;
+import com.survey.polla.model.entity.User;
 
-@Entity
-@Table(name = "comment")
-public class Comment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class CommentDto {
     private Long id;
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
-    @Column(name = "numberOfViolations", nullable = true)
+    private UserDto user;
     public int numberOfViolations;
-    @Column(name = "numberOfLikes", nullable = true)
     public int numberOfLikes;
-    @Column(name = "releasedDate", nullable = false)
     public long releasedDate;
-    @Column(name = "text", nullable = false)
     public String text;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "survey_id", nullable = false)
-    private Survey survey;
+    private SurveyBasicDto survey;
 
-    public Comment() {
+    public CommentDto(Long id, UserDto user, int numberOfViolations, int numberOfLikes, long releasedDate, String text, SurveyBasicDto survey) {
+        this.id = id;
+        this.user = user;
+        this.numberOfViolations = numberOfViolations;
+        this.numberOfLikes = numberOfLikes;
+        this.releasedDate = releasedDate;
+        this.text = text;
+        this.survey = survey;
     }
 
     public Long getId() {
@@ -34,11 +30,11 @@ public class Comment {
         this.id = id;
     }
 
-    public User getUser() {
+    public UserDto getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserDto user) {
         this.user = user;
     }
 
@@ -74,11 +70,11 @@ public class Comment {
         this.text = text;
     }
 
-    public Survey getSurvey() {
+    public SurveyBasicDto getSurvey() {
         return survey;
     }
 
-    public void setSurvey(Survey survey) {
+    public void setSurvey(SurveyBasicDto survey) {
         this.survey = survey;
     }
 }

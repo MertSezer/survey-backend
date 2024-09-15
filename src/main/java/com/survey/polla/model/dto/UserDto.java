@@ -1,16 +1,16 @@
 package com.survey.polla.model.dto;
 
-import jakarta.persistence.Column;
-
 public class UserDto {
     private Long id;
     private String name;
     private String surname;
+    private String username;
 
-    public UserDto(Long id, String name, String surname) {
+    public UserDto(Long id, String name, String surname, String username) {
         this.id = id;
         this.name = name;
         this.surname = surname;
+        this.username = username;
     }
 
     public Long getId() {
@@ -35,5 +35,13 @@ public class UserDto {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

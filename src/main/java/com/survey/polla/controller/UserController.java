@@ -4,7 +4,6 @@ import com.survey.polla.model.dto.UserDto;
 import com.survey.polla.model.entity.User;
 import com.survey.polla.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +24,7 @@ public class UserController {
             return ResponseEntity.notFound().build();
             //return v1;
         }
-        UserDto result = new UserDto(user.getId(), user.getName(), user.getSurname());
+        UserDto result = new UserDto(user.getId(), user.getName(), user.getSurname(), user.getUserName());
         return ResponseEntity.ok(result);
     }
     /*

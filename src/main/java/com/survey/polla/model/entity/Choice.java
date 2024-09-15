@@ -8,14 +8,14 @@ public class Choice {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(name = "percentile", nullable = true)
+    public double percentile;
     @Column(name = "text", nullable = false)
     private String text;
     //TODO: version 2
     //private List<User> voters;
     @Column(name = "numberOfVotes", nullable = true)
     private int numberOfVotes;
-    @Column(name = "percentile", nullable = true)
-    public double percentile;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "survey_id", nullable = false)
     private Survey survey;

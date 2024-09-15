@@ -1,20 +1,22 @@
 package com.survey.polla.service;
-import java.time.*;
 
 import com.survey.polla.model.entity.*;
 import com.survey.polla.repository.*;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service // @Component, @Configuration
 public class SurveyServiceImpl implements SurveyService, InitializingBean {
     @Autowired
-    private  SurveyRepository surveyRepository;
+    private SurveyRepository surveyRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -24,6 +26,7 @@ public class SurveyServiceImpl implements SurveyService, InitializingBean {
     private HashtagRepository hashtagRepository;
     @Autowired
     private CommentRepository commentRepository;
+
     /*
     NOTE: Tek tek @Autowired demek yerine constructor'da tüm gerekli bean'leri yaratabiliriz.
     @Autowired
@@ -41,8 +44,7 @@ public class SurveyServiceImpl implements SurveyService, InitializingBean {
 
 
     @Override
-    public void initialize()
-    {
+    public void initialize() {
         User user1 = new User();
         user1.setEmail("mertsezer1996319@gmail.com");
         user1.setPassword("KVNBU1");
@@ -57,7 +59,7 @@ public class SurveyServiceImpl implements SurveyService, InitializingBean {
         u2.setSurname("sezer");
         u2.setUserName("nedimSezer");
         u2 = userRepository.save(u2);
-       // --------------------------- user kaydedildi.
+        // --------------------------- user kaydedildi.
         int likesCount = 10;
         Survey survey = new Survey();
         survey.setBeginningDate(System.currentTimeMillis());
@@ -123,5 +125,23 @@ public class SurveyServiceImpl implements SurveyService, InitializingBean {
         com2.setNumberOfViolations(9);
         com2.setText("commentyazısı");
         com2 = commentRepository.save(com2);
+    }
+
+    @Override
+    public List<Survey> getSurveysByHashtagId(Long hashtagId) {
+        // TODO: sql method query olarak çekmeyi yap. Performans.
+        List<Survey> surveys = surveyRepository.findAll();
+        List<Survey> resultSurveys = new ArrayList<>();
+        for (int i = 0; i < surveys.size(); i++) {
+            List<Hashtag> hashtags = surveys.get(i).getHashtags();
+            for (Hashtag hashtag : hashtags) {
+                if (hashtag.getId().equals(hashtagId)) {
+                    resultSurveys.add(surveys.get(i));
+                }
+            }
+        }
+
+
+        return resultSurveys;
     }
 }

@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface HashtagService {
     List<Hashtag> getAll();
+
     Hashtag saveHashtag(HashtagDto hashtagDto);
+
     void removeHashtag(Long id);
 }

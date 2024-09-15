@@ -4,11 +4,12 @@ package com.survey.polla.model.entity;
 import jakarta.persistence.*;
 
 import java.util.List;
+
 @Entity
 @Table(name = "survey")
 public class Survey {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(name = "title", nullable = false)
     private String title;

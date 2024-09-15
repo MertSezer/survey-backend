@@ -2,7 +2,7 @@ package com.survey.polla.service;
 
 import com.survey.polla.model.dto.HashtagDto;
 import com.survey.polla.model.entity.Hashtag;
-import com.survey.polla.repository.*;
+import com.survey.polla.repository.HashtagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,12 +39,9 @@ public class HashtagServiceImpl implements HashtagService {
     @Override
     public void removeHashtag(Long id) {
         Optional<Hashtag> optional = hashtagRepository.findById(id);
-        if (optional.isPresent())
-        {
+        if (optional.isPresent()) {
             hashtagRepository.delete(optional.get());
-        }
-        else
-        {
+        } else {
             //TODO: hashtag repository'de bulunmayan hashtag silme
         }
     }

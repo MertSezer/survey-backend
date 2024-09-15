@@ -6,7 +6,6 @@ import com.survey.polla.service.HashtagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -23,6 +22,7 @@ public class HashtagController {
     public void deleteHashtag(@PathVariable("id") Long hashtagId) {
         hashtagService.removeHashtag(hashtagId);
     }
+
     @GetMapping("/")
     public ResponseEntity<List<HashtagDto>> getAll() {
 
@@ -30,7 +30,7 @@ public class HashtagController {
         // 2) service.getAll();
         List<Hashtag> hashtagEntityList = hashtagService.getAll();
         List<HashtagDto> hashtagDtoList = new ArrayList<>();
-        for (Hashtag entity: hashtagEntityList){
+        for (Hashtag entity : hashtagEntityList) {
             HashtagDto hashtagDto = new HashtagDto(entity.getId(), entity.getText(), entity.getDescription());
             hashtagDtoList.add(hashtagDto);
         }
