@@ -6,6 +6,9 @@ public class SurveyBasicDto {
     private Long beginningDate;
     private int likeCount;
 
+    public SurveyBasicDto() {
+    }
+
     public SurveyBasicDto(Long id, String title, Long beginningDate, int likeCount) {
         this.id = id;
         this.title = title;

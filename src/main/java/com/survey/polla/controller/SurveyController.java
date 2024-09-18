@@ -1,16 +1,14 @@
 package com.survey.polla.controller;
 
-import com.survey.polla.model.dto.HashtagDto;
+import com.survey.polla.converter.SurveyBasicConverter;
 import com.survey.polla.model.dto.SurveyBasicDto;
 import com.survey.polla.model.dto.SurveyDto;
 import com.survey.polla.model.dto.UserDto;
-import com.survey.polla.model.entity.Hashtag;
 import com.survey.polla.model.entity.Survey;
 import com.survey.polla.model.entity.User;
 import com.survey.polla.service.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +24,9 @@ public class SurveyController {
     @Autowired
     private SurveyService surveyService;
 
+    @Autowired
+    private SurveyBasicConverter surveyBasicConverter;
+
     @GetMapping("/basic/{hashtagId}")
     public ResponseEntity<List<SurveyBasicDto>> getSurveysByHashtagId(@PathVariable Long hashtagId) {
         List<Survey> surveys = surveyService.getSurveysByHashtagId(hashtagId);
@@ -33,11 +34,17 @@ public class SurveyController {
         // Burada kaldım. List survey -> List surveybasicdto
         for (int i = 0; i < surveys.size(); i++)
         {
+            /*
             Survey survey = surveys.get(i);
             SurveyBasicDto dto = new SurveyBasicDto(survey.getId(), survey.getTitle(), survey.getBeginningDate(), survey.getLikeCount());
             resultdto.add(dto);
-            //resultdto.add(new SurveyBasicDto(surveys.get(i).getTitle(), surveys.get(i).getBeginningDate(),surveys.get(i).getLikeCount()));
-        }
+
+
+             */
+            Survey survey =surveys.get(i);
+           SurveyBasicDto surveyBasicDto = surveyBasicConverter.toDto(survey);
+           resultdto.add(surveyBasicDto);
+     }
         //return ResponseEntity.ok(resultdto);
         ResponseEntity responseEntity = new ResponseEntity<>(resultdto, HttpStatus.OK);
         return responseEntity;
@@ -60,7 +67,8 @@ public class SurveyController {
          // TODO: listeleri dönüştür
         // TODO: converter katmanını entegre et.
          //resultDto.setChoices(survey.getChoices());
-
+        ResponseEntity responseEntity = new ResponseEntity<>(resultDto, HttpStatus.OK);
+        return responseEntity;
     }
 
 }

@@ -12,6 +12,9 @@ public class CommentDto {
     public String text;
     private SurveyBasicDto survey;
 
+    public CommentDto() {
+    }
+
     public CommentDto(Long id, UserDto user, int numberOfViolations, int numberOfLikes, long releasedDate, String text, SurveyBasicDto survey) {
         this.id = id;
         this.user = user;

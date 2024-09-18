@@ -8,6 +8,9 @@ public class HashtagDto {
 
     private String description;
 
+    public HashtagDto() {
+    }
+
     public HashtagDto(Long id, String text, String description) {
         this.id = id;
         this.text = text;

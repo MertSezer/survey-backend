@@ -12,6 +12,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service // @Component, @Configuration
 public class SurveyServiceImpl implements SurveyService, InitializingBean {
@@ -143,5 +144,18 @@ public class SurveyServiceImpl implements SurveyService, InitializingBean {
 
 
         return resultSurveys;
+    }
+
+    @Override
+    public Survey getSurveyById(Long id) {
+       Optional<Survey> surveyOptional =  surveyRepository.findById(id);
+       if (surveyOptional.isPresent())
+       {
+           return surveyOptional.get();
+       }
+       else
+       {
+           return null;
+       }
     }
 }

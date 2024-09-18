@@ -1,16 +1,20 @@
 package com.survey.polla.model.dto;
 
 public class UserDto {
+
     private Long id;
     private String name;
     private String surname;
-    private String username;
+    private String userName;
 
-    public UserDto(Long id, String name, String surname, String username) {
+    public UserDto() {
+    }
+
+    public UserDto(Long id, String name, String surname, String userName) {
         this.id = id;
         this.name = name;
         this.surname = surname;
-        this.username = username;
+        this.userName = userName;
     }
 
     public Long getId() {
@@ -37,11 +41,11 @@ public class UserDto {
         this.surname = surname;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }
