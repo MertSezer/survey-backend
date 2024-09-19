@@ -1,5 +1,6 @@
 package com.survey.polla.service;
 
+import com.survey.polla.model.dto.SurveyDto;
 import com.survey.polla.model.entity.*;
 import com.survey.polla.repository.*;
 import org.springframework.beans.factory.InitializingBean;
@@ -157,5 +158,17 @@ public class SurveyServiceImpl implements SurveyService, InitializingBean {
        {
            return null;
        }
+    }
+
+    @Override
+    public List<Survey> getAllSurveys() {
+        List<Survey> surveys = surveyRepository.findAll();
+        return surveys;
+    }
+
+    @Override
+    public Survey create(Survey survey) {
+        Survey s = surveyRepository.save(survey);
+        return s;
     }
 }

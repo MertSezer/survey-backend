@@ -6,7 +6,12 @@ import java.util.List;
 
 public interface SurveyService {
     void initialize();
+
     List<Survey> getSurveysByHashtagId(Long hashtagId);
 
     Survey getSurveyById(Long id);
+
+    List<Survey> getAllSurveys();
+
+    Survey create(Survey survey);
 }

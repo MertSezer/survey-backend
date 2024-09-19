@@ -36,12 +36,5 @@ public class CommentConverter {
         return commentDto;
     }
 
-    public UserConverter getUserConverter() {
-        return userConverter;
-    }
-
-    public void setUserConverter(UserConverter userConverter) {
-        this.userConverter = userConverter;
-    }
 }
 
