@@ -22,4 +22,17 @@ public class UserServiceImpl implements UserService {
             return null;
         }
     }
+
+
+    @Override
+    public boolean login(String email, String password) {
+        User u = userRepository.findByEmail(email);
+        if (u != null) {
+            return u.getPassword().equals(password);
+        } else {
+            return false;
+        }
+    }
+
+
 }

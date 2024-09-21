@@ -1,7 +1,6 @@
 package com.survey.polla.model.dto;
 
-import com.survey.polla.model.entity.Hashtag;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class SurveyDto {
@@ -14,8 +13,8 @@ public class SurveyDto {
     private UserDto publisherUser;
     private List<HashtagDto> hashtags;
     private int likeCount;
-    private List<CommentDto> comments;
-    private List<ChoiceDto> choices;
+    private List<CommentDto> comments = new ArrayList<>();
+    private List<ChoiceDto> choices = new ArrayList<>();
 
     public SurveyDto() {
     }

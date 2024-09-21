@@ -5,11 +5,11 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "choice")
 public class Choice {
+    @Column(name = "percentile", nullable = true)
+    public double percentile;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "percentile", nullable = true)
-    public double percentile;
     @Column(name = "text", nullable = false)
     private String text;
     //TODO: version 2

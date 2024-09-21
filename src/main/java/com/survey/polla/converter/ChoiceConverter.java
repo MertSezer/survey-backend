@@ -9,11 +9,11 @@ public class ChoiceConverter {
 
     public Choice toEntity(ChoiceDto choiceDto) {
         Choice choice = new Choice();
-        choice.setId(choice.getId());
-        choice.setPercentile(choice.getPercentile());
-        choice.setText(choice.getText());
+        choice.setId(choiceDto.getId());
+        choice.setPercentile(choiceDto.getPercentile());
+        choice.setText(choiceDto.getText());
         //TODO: choice.setSurvey(choiceDto.getSurvey());
-        choice.setNumberOfVotes(choice.getNumberOfVotes());
+        choice.setNumberOfVotes(choiceDto.getNumberOfVotes());
         return choice;
     }
 

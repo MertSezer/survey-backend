@@ -1,15 +1,12 @@
 package com.survey.polla.model.dto;
 
-import com.survey.polla.model.entity.Survey;
-import com.survey.polla.model.entity.User;
-
 public class CommentDto {
-    private Long id;
-    private UserDto user;
     public int numberOfViolations;
     public int numberOfLikes;
     public long releasedDate;
     public String text;
+    private Long id;
+    private UserDto user;
     private SurveyBasicDto survey;
 
     public CommentDto() {

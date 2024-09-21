@@ -4,6 +4,7 @@ import com.survey.polla.model.dto.UserDto;
 import com.survey.polla.model.entity.User;
 import com.survey.polla.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ public class UserController {
         UserDto result = new UserDto(user.getId(), user.getName(), user.getSurname(), user.getUserName());
         return ResponseEntity.ok(result);
     }
+
     /*
 
 @GetMapping("/foos/{id}")
@@ -35,4 +37,11 @@ public class UserController {
         return "ID: " + id;
     }
      */
+    @GetMapping("/login/{email}/{password}")
+    public ResponseEntity<Boolean> login(@PathVariable String email, @PathVariable String password) {
+        Boolean result = userService.login(email, password);
+        ResponseEntity responseEntity = new ResponseEntity<>(result, HttpStatus.OK);
+        return responseEntity;
+    }
+
 }

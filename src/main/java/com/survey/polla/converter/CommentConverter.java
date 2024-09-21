@@ -10,8 +10,7 @@ public class CommentConverter {
     @Autowired
     private UserConverter userConverter;
 
-    public Comment toEntity(CommentDto commentDto)
-    {
+    public Comment toEntity(CommentDto commentDto) {
         Comment comment = new Comment();
         comment.setId(comment.getId());
         comment.setText(comment.getText());
@@ -23,8 +22,8 @@ public class CommentConverter {
 
         return comment;
     }
-    public CommentDto toDto(Comment comment)
-    {
+
+    public CommentDto toDto(Comment comment) {
         CommentDto commentDto = new CommentDto();
         // TODO: volkan acıkla commentDto.setSurvey(comment.getSurvey());
         commentDto.setId(comment.getId());

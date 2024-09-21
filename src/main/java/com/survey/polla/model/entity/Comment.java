@@ -5,12 +5,6 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "comment")
 public class Comment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
     @Column(name = "numberOfViolations", nullable = true)
     public int numberOfViolations;
     @Column(name = "numberOfLikes", nullable = true)
@@ -19,6 +13,12 @@ public class Comment {
     public long releasedDate;
     @Column(name = "text", nullable = false)
     public String text;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "survey_id", nullable = false)
     private Survey survey;

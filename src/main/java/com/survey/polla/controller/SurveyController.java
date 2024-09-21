@@ -69,11 +69,12 @@ public class SurveyController {
 
     @PostMapping("/")
     public ResponseEntity<SurveyDto> createSurvey(@RequestBody SurveyDto surveyDto) {
-        Survey s = surveyService.create(surveyConverter.toEntity(surveyDto));
-        SurveyDto surveyResultDto = surveyConverter.toDto(s);
+        Survey survey = surveyConverter.toEntity(surveyDto);
+        survey = surveyService.create(survey);
+        SurveyDto surveyResultDto = surveyConverter.toDto(survey);
         // TODO: 1) En az bir hashtag olmalı, eger hiç hashtag verilmezse HashtagNotProvidedException fırlat.
-        // TODO: 2) En az iki adet choise içermeli, içermeze ChoiseSizeNotSuffientException
-        // TODO: 3) hiç comment verilmezse bu bir sorun değildir, exception atmalıdır.
+        // TODO: 2) En az iki adet choise içermeli, içermeze ChoiseSizeNotSuffientException.
+        // TODO: 3) hiç comment verilmemelidir, eğer frontend den comment gelirse ya ignore edilmeli ya da exception.
         ResponseEntity responseEntity = new ResponseEntity<>(surveyResultDto, HttpStatus.OK);
         return responseEntity;
     }

@@ -26,7 +26,7 @@ public class SurveyConverter {
     @Autowired
     private ChoiceConverter choiceConverter;
 
-    public Survey toEntity(SurveyDto source){
+    public Survey toEntity(SurveyDto source) {
         Survey converted = new Survey();
         converted.setLikeCount(source.getLikeCount());
         converted.setBeginningDate(source.getBeginningDate());
@@ -39,7 +39,7 @@ public class SurveyConverter {
         converted.setPublisherUser(userConverter.toEntity(source.getPublisherUser()));
 
         List<Hashtag> hashtags = new ArrayList<>();
-        for (int i = 0; i<source.getHashtags().size(); i++){
+        for (int i = 0; i < source.getHashtags().size(); i++) {
             HashtagDto hashtagDto = source.getHashtags().get(i);
             Hashtag hashtag = hashtagConverter.toEntity(hashtagDto);
             hashtags.add(hashtag);
@@ -47,16 +47,14 @@ public class SurveyConverter {
         converted.setHashtags(hashtags);
 
         List<Comment> comments = new ArrayList<>();
-        for (int i = 0; i < source.getComments().size(); i++)
-        {
+        for (int i = 0; i < source.getComments().size(); i++) {
             CommentDto commentDto = source.getComments().get(i);
             Comment comment = commentConverter.toEntity(commentDto);
             comments.add(comment);
         }
         converted.setComments(comments);
         List<Choice> choices = new ArrayList<Choice>();
-        for (int i = 0; i < source.getChoices().size(); i++)
-        {
+        for (int i = 0; i < source.getChoices().size(); i++) {
             ChoiceDto choiceDto = source.getChoices().get(i);
             Choice choice = choiceConverter.toEntity(choiceDto);
             choices.add(choice);
@@ -66,7 +64,7 @@ public class SurveyConverter {
 
     }
 
-    public SurveyDto toDto(Survey source){
+    public SurveyDto toDto(Survey source) {
         SurveyDto converted = new SurveyDto();
         converted.setLikeCount(source.getLikeCount());
         converted.setBeginningDate(source.getBeginningDate());
@@ -78,22 +76,20 @@ public class SurveyConverter {
         converted.setPictureURL(source.getPictureURL());
         converted.setPublisherUser(userConverter.toDto(source.getPublisherUser()));
         List<HashtagDto> hashtags = new ArrayList<>();
-        for(int i = 0; i<source.getHashtags().size(); i++){
-           Hashtag hashtag = source.getHashtags().get(i);
+        for (int i = 0; i < source.getHashtags().size(); i++) {
+            Hashtag hashtag = source.getHashtags().get(i);
             hashtags.add(hashtagConverter.toDto(hashtag));
         }
         converted.setHashtags(hashtags);
 
         List<CommentDto> comments = new ArrayList<>();
-        for (int i = 0; i < source.getComments().size(); i++)
-        {
+        for (int i = 0; i < source.getComments().size(); i++) {
             comments.add(commentConverter.toDto(source.getComments().get(i)));
         }
         converted.setComments(comments);
 
         List<ChoiceDto> choiceDtos = new ArrayList<>();
-        for (int i = 0; i < source.getChoices().size(); i ++)
-        {
+        for (int i = 0; i < source.getChoices().size(); i++) {
             choiceDtos.add(choiceConverter.toDto(source.getChoices().get(i)));
         }
         converted.setChoices(choiceDtos);

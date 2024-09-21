@@ -1,10 +1,8 @@
 package com.survey.polla.model.dto;
 
-import com.survey.polla.model.entity.Survey;
-
 public class ChoiceDto {
-    private Long id;
     public double percentile;
+    private Long id;
     private String text;
     private int numberOfVotes;
     private SurveyBasicDto survey;

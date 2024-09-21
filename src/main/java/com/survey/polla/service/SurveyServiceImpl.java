@@ -1,6 +1,5 @@
 package com.survey.polla.service;
 
-import com.survey.polla.model.dto.SurveyDto;
 import com.survey.polla.model.entity.*;
 import com.survey.polla.repository.*;
 import org.springframework.beans.factory.InitializingBean;
@@ -19,7 +18,6 @@ import java.util.Optional;
 public class SurveyServiceImpl implements SurveyService, InitializingBean {
     @Autowired
     private SurveyRepository surveyRepository;
-
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -28,6 +26,7 @@ public class SurveyServiceImpl implements SurveyService, InitializingBean {
     private HashtagRepository hashtagRepository;
     @Autowired
     private CommentRepository commentRepository;
+
 
     /*
     NOTE: Tek tek @Autowired demek yerine constructor'da tüm gerekli bean'leri yaratabiliriz.
@@ -149,15 +148,12 @@ public class SurveyServiceImpl implements SurveyService, InitializingBean {
 
     @Override
     public Survey getSurveyById(Long id) {
-       Optional<Survey> surveyOptional =  surveyRepository.findById(id);
-       if (surveyOptional.isPresent())
-       {
-           return surveyOptional.get();
-       }
-       else
-       {
-           return null;
-       }
+        Optional<Survey> surveyOptional = surveyRepository.findById(id);
+        if (surveyOptional.isPresent()) {
+            return surveyOptional.get();
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -168,7 +164,25 @@ public class SurveyServiceImpl implements SurveyService, InitializingBean {
 
     @Override
     public Survey create(Survey survey) {
+        // choice leri bul ve chooiceservive ile kaydet. survey e set et.
+        survey.setChoices(null);
+        survey = surveyRepository.save(survey);
+        /*
+        List<Choice> listOfChoices = new ArrayList<>();
+        for(int i = 0; i < survey.getChoices().size(); i++)
+        {
+            Choice currentChoice = survey.getChoices().get(i);
+            currentChoice.setSurvey(survey);
+            currentChoice = choiceRepository.save(currentChoice);
+
+            listOfChoices.add(currentChoice);
+        }
+        survey.setChoices(listOfChoices);
+        // hashtags
+
+
         Survey s = surveyRepository.save(survey);
-        return s;
+        */
+        return survey;
     }
 }

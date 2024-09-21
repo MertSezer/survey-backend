@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component // Service, Configuration
 public class SurveyBasicConverter {
 
-    public Survey toEntity(SurveyBasicDto source){
+    public Survey toEntity(SurveyBasicDto source) {
         Survey target = new Survey();
         target.setId(source.getId());
         target.setTitle(source.getTitle());
@@ -16,7 +16,7 @@ public class SurveyBasicConverter {
         return target;
     }
 
-    public SurveyBasicDto toDto(Survey source){
+    public SurveyBasicDto toDto(Survey source) {
         SurveyBasicDto target = new SurveyBasicDto();
         target.setId(source.getId());
         target.setTitle(source.getTitle());
