@@ -19,11 +19,11 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
     @Column(name = "birth_date", nullable = true)
-    private String birthDate;
+    private long birthDate;
     @Column(name = "email", nullable = false)
     private String email;
     @Column(name = "phone_number", nullable = true)
-    private int phoneNumber;
+    private String phoneNumber;
     @Column(name = "country", nullable = true)
     private String country;
     @Column(name = "city", nullable = true)
@@ -87,11 +87,11 @@ public class User {
         this.password = password;
     }
 
-    public String getBirthDate() {
+    public long getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(long birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -103,11 +103,11 @@ public class User {
         this.email = email;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

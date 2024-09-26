@@ -8,6 +8,7 @@ import java.util.List;
 public interface HashtagService {
     List<Hashtag> getAll();
 
+    // TODO: dto olmamalı
     Hashtag saveHashtag(HashtagDto hashtagDto);
 
     void removeHashtag(Long id);
