@@ -1,4 +1,5 @@
 package com.survey.polla.model.expection;
-public class UserExistsException extends Exception{
+
+public class UserExistsException extends Exception {
 
 }

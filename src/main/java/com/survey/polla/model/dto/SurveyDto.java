@@ -1,10 +1,17 @@
 package com.survey.polla.model.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SurveyDto {
     private Long id;
+    @Schema(
+            description = "Title of the survey.",
+            name = "title",
+            type = "String",
+            example = "Türkiye Ekonomisi Nasıl?")
     private String title;
     private String description;
     private long beginningDate;

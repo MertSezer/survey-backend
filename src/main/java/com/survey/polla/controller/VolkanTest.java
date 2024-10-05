@@ -7,11 +7,12 @@ public class VolkanTest {
         boolean p1 = isValid(password);
         boolean p2 = isValid(password2);
 
-        System.out.println("P1: "+ p1);
-        System.out.println("P2: "+ p2);
+        System.out.println("P1: " + p1);
+        System.out.println("P2: " + p2);
 
     }
-    public static boolean isValid(String password){
+
+    public static boolean isValid(String password) {
         // Write here only.
         return false;
     }

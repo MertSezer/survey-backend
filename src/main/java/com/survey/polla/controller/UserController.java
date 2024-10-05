@@ -8,11 +8,21 @@ import com.survey.polla.model.dto.UserDto;
 import com.survey.polla.model.entity.User;
 import com.survey.polla.model.expection.*;
 import com.survey.polla.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Tag(name = "User API", description = "User related API located here.")
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
@@ -33,8 +43,27 @@ public class UserController {
         return ResponseEntity.ok(result);
     }
 
-    /*
+    @Operation(summary = "Used to return all users.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Return all users successfully. There is no users in the list, return empty list.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = LoginDto.class))})
+    })
+    @GetMapping("/")
+    public ResponseEntity<List<UserDto>> getAll() {
+        // 2) service.getAll();
+        UserController hashtagService;
+        List<User> userEntityList = userService.getAll();
+        List<UserDto> userDtos = new ArrayList<>();
+        for (User user : userEntityList) {
+            UserDto userDto = userConverter.toDto(user);
+            userDtos.add(userDto);
+        }
+        return new ResponseEntity<>(userDtos, HttpStatus.OK);
+    }
 
+    /*
+@GetMapping
 @GetMapping("/foos/{id}")
     @ResponseBody
     public String getFooById(@PathVariable String id) {
@@ -47,6 +76,15 @@ public class UserController {
         ResponseEntity responseEntity = new ResponseEntity<>(result, HttpStatus.OK);
         return responseEntity;
     }
+
+
+    @Operation(summary = "Used to login system securely.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Login the system securely.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = LoginDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Password or e-mail is blank. If password does not contains special characters, at least one number and at least one capital letter.",
+                    content = @Content)})
 
     @PostMapping("/secure-login")
     public ResponseEntity<Boolean> login(@RequestBody LoginDto loginDto) {

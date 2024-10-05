@@ -1,11 +1,29 @@
 package com.survey.polla.model.dto;
 
-public class HashtagDto {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+public class HashtagDto {
+    @Schema(
+            description = "Database id Of the Hashtag",
+            name = "id",
+            type = "Long",
+            example = "21400246")
+    @JsonIgnore // NOTE: API'de gözükmüyor.
     private Long id;
 
+    @Schema(
+            description = "Text Of the Hashtag",
+            name = "text",
+            type = "String",
+            example = "AvrupaLigi")
     private String text;
 
+    @Schema(
+            description = "Description of the Hashtag",
+            name = "description",
+            type = "String",
+            example = "Avrupa Ligi'nde bu hafta oynanan maç sonuçları tahminleri")
     private String description;
 
     public HashtagDto() {

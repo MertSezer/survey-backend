@@ -3,6 +3,7 @@ package com.survey.polla.controller;
 import com.survey.polla.model.dto.HashtagDto;
 import com.survey.polla.model.entity.Hashtag;
 import com.survey.polla.service.HashtagService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Tag(name = "Hashtag API", description = "Hashtag related API located here.")
 @RestController
 @RequestMapping("/api/v1/hashtag")
 public class HashtagController {
@@ -25,8 +27,6 @@ public class HashtagController {
 
     @GetMapping("/")
     public ResponseEntity<List<HashtagDto>> getAll() {
-
-
         // 2) service.getAll();
         List<Hashtag> hashtagEntityList = hashtagService.getAll();
         List<HashtagDto> hashtagDtoList = new ArrayList<>();

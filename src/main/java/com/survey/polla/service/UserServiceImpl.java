@@ -7,8 +7,8 @@ import com.survey.polla.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
@@ -90,5 +90,10 @@ public class UserServiceImpl implements UserService {
             throw new DatabaseException("User couldn't be saved.");
         }
         return true;
+    }
+
+    @Override
+    public List<User> getAll() {
+        return userRepository.findAll();
     }
 }

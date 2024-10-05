@@ -1,4 +1,5 @@
 package com.survey.polla;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class MertText {

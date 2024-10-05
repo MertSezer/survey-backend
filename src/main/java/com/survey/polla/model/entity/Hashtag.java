@@ -19,7 +19,7 @@ public class Hashtag {
     private long beginDate;
     @Column(name = "end_date", nullable = true)
     private long endDate;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE})
     private List<Survey> surveys;
     //survey
 

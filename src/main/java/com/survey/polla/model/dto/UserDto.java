@@ -1,10 +1,32 @@
 package com.survey.polla.model.dto;
 
-public class UserDto {
+import io.swagger.v3.oas.annotations.media.Schema;
 
+public class UserDto {
+    @Schema(
+            description = "Database id of the User.",
+            name = "id",
+            type = "Long",
+            example = "1928")
     private Long id;
+
+    @Schema(
+            description = "Name of the User.",
+            name = "name",
+            type = "String",
+            example = "Ali")
     private String name;
+    @Schema(
+            description = "Surname of the User.",
+            name = "surname",
+            type = "String",
+            example = "Yılmaz")
     private String surname;
+    @Schema(
+            description = "user name  (nickname) of the User. This field should be unique.",
+            name = "userName",
+            type = "String",
+            example = "aliyilmaz")
     private String userName;
 
     public UserDto() {

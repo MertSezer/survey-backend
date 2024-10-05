@@ -18,16 +18,16 @@ public class UserConverter {
 
     // method overloading
     public User toEntity(SignUpDto signUpDto) {
-      User user = new User();
-      user.setUserName(signUpDto.getUserName());
-      user.setName(signUpDto.getName());
-      user.setSurname(signUpDto.getSurname());
-      user.setPassword(signUpDto.getPassword());
-      user.setBirthDate(signUpDto.getBirthDate());
-      user.setPhoneNumber(signUpDto.getPhoneNumber());
-      user.setProfilePictureURL(signUpDto.getProfilePictureURL());
-      user.setEmail(signUpDto.getEmail());
-      return user;
+        User user = new User();
+        user.setUserName(signUpDto.getUserName());
+        user.setName(signUpDto.getName());
+        user.setSurname(signUpDto.getSurname());
+        user.setPassword(signUpDto.getPassword());
+        user.setBirthDate(signUpDto.getBirthDate());
+        user.setPhoneNumber(signUpDto.getPhoneNumber());
+        user.setProfilePictureURL(signUpDto.getProfilePictureURL());
+        user.setEmail(signUpDto.getEmail());
+        return user;
     }
 
     public UserDto toDto(User user) {

@@ -6,6 +6,7 @@ import com.survey.polla.model.dto.SurveyBasicDto;
 import com.survey.polla.model.dto.SurveyDto;
 import com.survey.polla.model.entity.Survey;
 import com.survey.polla.service.SurveyService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Tag(name = "Survey API", description = "Survey related API located here.")
 @RestController
 @RequestMapping("/api/v1/survey")
 public class SurveyController {
