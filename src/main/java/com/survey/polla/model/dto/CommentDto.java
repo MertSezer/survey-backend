@@ -7,19 +7,19 @@ public class CommentDto {
     public String text;
     private Long id;
     private UserDto user;
-    private SurveyBasicDto survey;
+    private long surveyId;
 
     public CommentDto() {
     }
 
-    public CommentDto(Long id, UserDto user, int numberOfViolations, int numberOfLikes, long releasedDate, String text, SurveyBasicDto survey) {
+    public CommentDto(Long id, UserDto user, int numberOfViolations, int numberOfLikes, long releasedDate, String text, long surveyId) {
         this.id = id;
         this.user = user;
         this.numberOfViolations = numberOfViolations;
         this.numberOfLikes = numberOfLikes;
         this.releasedDate = releasedDate;
         this.text = text;
-        this.survey = survey;
+        this.surveyId = surveyId;
     }
 
     public Long getId() {
@@ -70,11 +70,11 @@ public class CommentDto {
         this.text = text;
     }
 
-    public SurveyBasicDto getSurvey() {
-        return survey;
+    public long getSurveyId() {
+        return surveyId;
     }
 
-    public void setSurvey(SurveyBasicDto survey) {
-        this.survey = survey;
+    public void setSurveyId(long surveyId) {
+        this.surveyId = surveyId;
     }
 }

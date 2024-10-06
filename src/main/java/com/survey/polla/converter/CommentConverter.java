@@ -14,24 +14,23 @@ public class CommentConverter {
         Comment comment = new Comment();
         comment.setId(comment.getId());
         comment.setText(comment.getText());
-        //TODO: Volkan açıkla: comment.setSurvey(commentDto.getSurvey());
+        // TODO: Volkan açıkla: comment.setSurvey(commentDto.getSurvey());
         comment.setUser(userConverter.toEntity(commentDto.getUser()));
         comment.setReleasedDate(commentDto.getReleasedDate());
         comment.setNumberOfLikes(commentDto.getNumberOfLikes());
         comment.setNumberOfViolations(commentDto.getNumberOfViolations());
-
         return comment;
     }
 
     public CommentDto toDto(Comment comment) {
         CommentDto commentDto = new CommentDto();
-        // TODO: volkan acıkla commentDto.setSurvey(comment.getSurvey());
         commentDto.setId(comment.getId());
         commentDto.setText(comment.getText());
         commentDto.setUser(userConverter.toDto(comment.getUser()));
         commentDto.setReleasedDate(comment.getReleasedDate());
         commentDto.setNumberOfLikes(comment.getNumberOfLikes());
         commentDto.setNumberOfViolations(comment.getNumberOfViolations());
+        commentDto.setSurveyId(comment.getSurvey().getId());
         return commentDto;
     }
 

@@ -35,11 +35,9 @@ public class UserController {
     public ResponseEntity<UserDto> getUserById(@PathVariable long id) {
         User user = userService.getUserById(id);
         if (user == null) {
-            //sponseEntity v1 = new ResponseEntity<UserDto>(HttpStatusCode.valueOf(404));
             return ResponseEntity.notFound().build();
-            //return v1;
         }
-        UserDto result = new UserDto(user.getId(), user.getName(), user.getSurname(), user.getUserName());
+        UserDto result = userConverter.toDto(user);
         return ResponseEntity.ok(result);
     }
 
@@ -51,30 +49,19 @@ public class UserController {
     })
     @GetMapping("/")
     public ResponseEntity<List<UserDto>> getAll() {
-        // 2) service.getAll();
-        UserController hashtagService;
-        List<User> userEntityList = userService.getAll();
-        List<UserDto> userDtos = new ArrayList<>();
-        for (User user : userEntityList) {
+        List<User> users = userService.getAll();
+        List<UserDto> result = new ArrayList<>();
+        for (User user : users) {
             UserDto userDto = userConverter.toDto(user);
-            userDtos.add(userDto);
+            result.add(userDto);
         }
-        return new ResponseEntity<>(userDtos, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    /*
-@GetMapping
-@GetMapping("/foos/{id}")
-    @ResponseBody
-    public String getFooById(@PathVariable String id) {
-        return "ID: " + id;
-    }
-     */
     @GetMapping("/login/{email}/{password}")
     public ResponseEntity<Boolean> login(@PathVariable String email, @PathVariable String password) {
         Boolean result = userService.login(email, password);
-        ResponseEntity responseEntity = new ResponseEntity<>(result, HttpStatus.OK);
-        return responseEntity;
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 
@@ -85,11 +72,14 @@ public class UserController {
                             schema = @Schema(implementation = LoginDto.class))}),
             @ApiResponse(responseCode = "400", description = "Password or e-mail is blank. If password does not contains special characters, at least one number and at least one capital letter.",
                     content = @Content)})
-
     @PostMapping("/secure-login")
     public ResponseEntity<Boolean> login(@RequestBody LoginDto loginDto) {
+        // TODO: loginDto.getEmail().equals(null) why always false? Check that.
+        if (loginDto.getEmail() == null || loginDto.getPassword() == null) {
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        }
         boolean isLoggedIn = userService.login(loginDto.getEmail(), loginDto.getPassword());
-        ResponseEntity resultEntity;
+        ResponseEntity<Boolean> resultEntity;
         if (isLoggedIn) {
             resultEntity = new ResponseEntity<>(isLoggedIn, HttpStatus.OK);
         } else {
@@ -98,7 +88,6 @@ public class UserController {
         return resultEntity;
     }
 
-    // signup
     @PostMapping("/sign-up")
     public ResponseEntity<Boolean> signedUp(@RequestBody SignUpDto signUpDto) {
         boolean isSigned = false;
@@ -113,24 +102,19 @@ public class UserController {
 
     @PostMapping("/change-password")
     public ResponseEntity<Boolean> changePassword(@RequestBody ChangePasswordDto changePasswordDto) {
-        ResponseEntity responseEntity;
+        ResponseEntity<Boolean> responseEntity;
         try {
             boolean isPasswordChanged = userService.changePassword(changePasswordDto.getUserId(), changePasswordDto.getNewPassword());
             if (isPasswordChanged) {
-                responseEntity = new ResponseEntity(true, HttpStatus.OK);
+                responseEntity = new ResponseEntity<>(true, HttpStatus.OK);
             } else {
-                responseEntity = new ResponseEntity(false, HttpStatus.INTERNAL_SERVER_ERROR);
+                responseEntity = new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        } catch (PasswordExistsException e) {
-            responseEntity = new ResponseEntity(false, HttpStatus.BAD_REQUEST);
-        } catch (PasswordLengthException e) {
-            responseEntity = new ResponseEntity(false, HttpStatus.BAD_REQUEST);
-        } catch (PasswordDoesNotContainDigitException e) {
-            responseEntity = new ResponseEntity(false, HttpStatus.BAD_REQUEST);
-        } catch (PasswordDoesNotContainSpecialCharacterException e) {
-            responseEntity = new ResponseEntity(false, HttpStatus.BAD_REQUEST);
+        } catch (PasswordExistsException | PasswordLengthException | PasswordDoesNotContainDigitException |
+                 PasswordDoesNotContainSpecialCharacterException e) {
+            responseEntity = new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         } catch (DatabaseException e) {
-            responseEntity = new ResponseEntity(false, HttpStatus.INTERNAL_SERVER_ERROR);
+            responseEntity = new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }
