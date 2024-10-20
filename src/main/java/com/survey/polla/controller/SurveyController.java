@@ -69,6 +69,7 @@ public class SurveyController {
         return responseEntity;
     }
 
+    // TODO: create ederken hata alıyorduk bunu çözmeliyiz.
     @PostMapping("/")
     public ResponseEntity<SurveyDto> createSurvey(@RequestBody SurveyDto surveyDto) {
         Survey survey = surveyConverter.toEntity(surveyDto);
@@ -80,4 +81,7 @@ public class SurveyController {
         ResponseEntity responseEntity = new ResponseEntity<>(surveyResultDto, HttpStatus.OK);
         return responseEntity;
     }
+
+
+    // TODO: updateSurvey
 }

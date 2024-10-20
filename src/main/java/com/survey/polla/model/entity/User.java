@@ -2,6 +2,9 @@ package com.survey.polla.model.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "polla_user")
 public class User {
@@ -35,6 +38,10 @@ public class User {
     private int authenticationCode;
     @Column(name = "security_question", nullable = true)
     private String securityQuestion;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<Comment> comments;
 
     public User() {
     }
@@ -149,5 +156,13 @@ public class User {
 
     public void setSecurityQuestion(String securityQuestion) {
         this.securityQuestion = securityQuestion;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

@@ -6,7 +6,7 @@ import com.survey.polla.model.dto.LoginDto;
 import com.survey.polla.model.dto.SignUpDto;
 import com.survey.polla.model.dto.UserDto;
 import com.survey.polla.model.entity.User;
-import com.survey.polla.model.expection.*;
+import com.survey.polla.model.exception.*;
 import com.survey.polla.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -118,4 +118,5 @@ public class UserController {
         }
         return responseEntity;
     }
+    // TODO: Şifrenin hash'lenip saklanmasını çözebiliriz.
 }

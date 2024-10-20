@@ -1,7 +1,7 @@
 package com.survey.polla.service;
 
 import com.survey.polla.model.entity.User;
-import com.survey.polla.model.expection.*;
+import com.survey.polla.model.exception.*;
 
 import java.util.List;
 
