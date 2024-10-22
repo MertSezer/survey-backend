@@ -5,6 +5,9 @@ import com.survey.polla.converter.SurveyConverter;
 import com.survey.polla.model.dto.SurveyBasicDto;
 import com.survey.polla.model.dto.SurveyDto;
 import com.survey.polla.model.entity.Survey;
+import com.survey.polla.model.exception.CommentShouldNotBeProvidedException;
+import com.survey.polla.model.exception.HashtagNotProvidedException;
+import com.survey.polla.model.exception.NotEnoughChoicesException;
 import com.survey.polla.service.SurveyService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,16 +75,19 @@ public class SurveyController {
     // TODO: create ederken hata alıyorduk bunu çözmeliyiz.
     @PostMapping("/")
     public ResponseEntity<SurveyDto> createSurvey(@RequestBody SurveyDto surveyDto) {
-        Survey survey = surveyConverter.toEntity(surveyDto);
-        survey = surveyService.create(survey);
-        SurveyDto surveyResultDto = surveyConverter.toDto(survey);
-        // TODO: 1) En az bir hashtag olmalı, eger hiç hashtag verilmezse HashtagNotProvidedException fırlat.
-        // TODO: 2) En az iki adet choise içermeli, içermeze ChoiseSizeNotSuffientException.
-        // TODO: 3) hiç comment verilmemelidir, eğer frontend den comment gelirse ya ignore edilmeli ya da exception.
-        ResponseEntity responseEntity = new ResponseEntity<>(surveyResultDto, HttpStatus.OK);
-        return responseEntity;
+        try {
+            Survey survey = surveyConverter.toEntity(surveyDto);
+            survey = surveyService.create(survey);
+            SurveyDto surveyResultDto = surveyConverter.toDto(survey);
+            return new ResponseEntity<>(surveyResultDto, HttpStatus.OK);
+        } catch (HashtagNotProvidedException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        } catch (NotEnoughChoicesException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (CommentShouldNotBeProvidedException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
-
-
     // TODO: updateSurvey
 }

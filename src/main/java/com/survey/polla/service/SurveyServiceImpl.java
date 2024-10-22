@@ -1,6 +1,9 @@
 package com.survey.polla.service;
 
 import com.survey.polla.model.entity.*;
+import com.survey.polla.model.exception.CommentShouldNotBeProvidedException;
+import com.survey.polla.model.exception.HashtagNotProvidedException;
+import com.survey.polla.model.exception.NotEnoughChoicesException;
 import com.survey.polla.repository.*;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -163,8 +166,20 @@ public class SurveyServiceImpl implements SurveyService, InitializingBean {
     }
 
     @Override
-    public Survey create(Survey survey) {
+    public Survey create(Survey survey) throws HashtagNotProvidedException, NotEnoughChoicesException, CommentShouldNotBeProvidedException {
         // choice leri bul ve chooiceservive ile kaydet. survey e set et.
+        if(survey.getHashtags().size() == 0)
+        {
+            throw new HashtagNotProvidedException("Hashtag not there for survey.");
+        }
+        if(survey.getChoices().size() < 2)
+        {
+            throw new NotEnoughChoicesException("Enough choices not provided for survey");
+        }
+        if (survey.getComments().size() > 0)
+        {
+            throw new CommentShouldNotBeProvidedException("Comment shouldn't be provided with the survey.");
+        }
         survey.setChoices(null);
         survey = surveyRepository.save(survey);
         /*

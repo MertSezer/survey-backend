@@ -1,7 +1,11 @@
 package com.survey.polla.controller;
 
+
+import com.survey.polla.converter.HashtagConverter;
 import com.survey.polla.model.dto.HashtagDto;
 import com.survey.polla.model.entity.Hashtag;
+import com.survey.polla.model.exception.HashtagAlreadyExistsException;
+import com.survey.polla.model.exception.HashtagNotFoundException;
 import com.survey.polla.service.HashtagService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +22,19 @@ import java.util.List;
 public class HashtagController {
     // 1) service inject et.
     @Autowired
-    public HashtagService hashtagService;
+    private HashtagService hashtagService;
+    @Autowired
+    private HashtagConverter hashtagConverter;
 
     @DeleteMapping("/{id}")
-    public void deleteHashtag(@PathVariable("id") Long hashtagId) {
-        hashtagService.removeHashtag(hashtagId);
+    public ResponseEntity<Void> deleteHashtag(@PathVariable("id") Long hashtagId){
+        try {
+            hashtagService.removeHashtag(hashtagId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (HashtagNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/")
@@ -31,8 +43,7 @@ public class HashtagController {
         List<Hashtag> hashtagEntityList = hashtagService.getAll();
         List<HashtagDto> hashtagDtoList = new ArrayList<>();
         for (Hashtag entity : hashtagEntityList) {
-            HashtagDto hashtagDto = new HashtagDto(entity.getId(), entity.getText(), entity.getDescription());
-            hashtagDtoList.add(hashtagDto);
+            hashtagDtoList.add(hashtagConverter.toDto(entity));
         }
         // Sonraki ders: HashtagDto Data Transfer Object.
         //List<User> users = userService.getAll();
@@ -43,19 +54,24 @@ public class HashtagController {
     // hashtag yaratsın. Postmapping
     @PostMapping("/")
     ResponseEntity<HashtagDto> createHashtag(@RequestBody HashtagDto hashtagDto) {
-        /*
-        Hashtag savedHashtag = hashtagService.saveHashtag(hashtagDto);
-        HashtagDto result = new HashtagDto(savedHashtag.getId(), savedHashtag.getText(), savedHashtag.getDescription());
-        return ResponseEntity.ok(result);
-
-         */
-        // TODO: when creating hashtag, also create gündem, if gündem already exists in hashtag table
-        // return 400 bad request
-        Hashtag hashtag = hashtagService.saveHashtag(hashtagDto);
-        hashtagDto.setId(hashtag.getId());
-        return ResponseEntity.ok(hashtagDto);
-
-
+        try {
+            Hashtag hashtag = hashtagConverter.toEntity(hashtagDto);
+            hashtagService.saveHashtag(hashtag);
+            hashtagDto.setId(hashtag.getId());
+            return new ResponseEntity<>(hashtagDto, HttpStatus.OK);
+        } catch (HashtagAlreadyExistsException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PutMapping("/")
+    ResponseEntity<HashtagDto> updateHashtag(@RequestBody HashtagDto hashtagDto) {
+        try {
+            Hashtag hashtag = hashtagConverter.toEntity(hashtagDto);
+            hashtag = hashtagService.updateHashtag(hashtag);
+            return new ResponseEntity<>(hashtagDto, HttpStatus.OK);
+        } catch (HashtagNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
 

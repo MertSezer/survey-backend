@@ -1,6 +1,10 @@
 package com.survey.polla.service;
 
 import com.survey.polla.model.entity.Survey;
+import com.survey.polla.model.exception.CommentShouldNotBeProvidedException;
+import com.survey.polla.model.exception.HashtagNotProvidedException;
+import com.survey.polla.model.exception.NotEnoughChoicesException;
+import com.survey.polla.model.exception.SurveyNotFoundException;
 
 import java.util.List;
 
@@ -13,5 +17,5 @@ public interface SurveyService {
 
     List<Survey> getAllSurveys();
 
-    Survey create(Survey survey);
+    Survey create(Survey survey) throws HashtagNotProvidedException, NotEnoughChoicesException, CommentShouldNotBeProvidedException;
 }
