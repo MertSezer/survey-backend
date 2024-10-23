@@ -13,5 +13,11 @@ public class MertText {
         String hash = hash(password);
         System.out.println("BCrypt Hash: " + hash);
 
+        BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+        boolean isPasswordMatches = bcrypt.matches(password, hash);
+        System.out.println(isPasswordMatches);
+
+
+
     }
 }

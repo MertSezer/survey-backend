@@ -6,7 +6,10 @@ import com.survey.polla.model.dto.LoginDto;
 import com.survey.polla.model.dto.SignUpDto;
 import com.survey.polla.model.dto.UserDto;
 import com.survey.polla.model.entity.User;
-import com.survey.polla.model.exception.*;
+import com.survey.polla.model.exception.DatabaseException;
+import com.survey.polla.model.exception.PasswordExistsException;
+import com.survey.polla.model.exception.PasswordNotValidException;
+import com.survey.polla.model.exception.UserExistsException;
 import com.survey.polla.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -26,6 +29,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
+
+
     @Autowired
     private UserService userService;
     @Autowired
@@ -110,8 +115,8 @@ public class UserController {
             } else {
                 responseEntity = new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        } catch (PasswordExistsException | PasswordLengthException | PasswordDoesNotContainDigitException |
-                 PasswordDoesNotContainSpecialCharacterException e) {
+        } catch (PasswordExistsException |
+                 PasswordNotValidException e) {
             responseEntity = new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         } catch (DatabaseException e) {
             responseEntity = new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);

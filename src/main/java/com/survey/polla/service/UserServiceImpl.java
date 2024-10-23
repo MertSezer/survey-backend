@@ -5,18 +5,21 @@ import com.survey.polla.model.entity.User;
 import com.survey.polla.model.exception.*;
 import com.survey.polla.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private static final int MIN_PASSWORD_LENGTH = 5;
     private static final String PASSWORD_PATTERN =
-            "^(?=.*[!@#&()–[{}]:;',?/*~$^+=<>])";
+            "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{5,10}$";
+
     private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
+
     @Autowired
     private UserRepository userRepository;
 
@@ -36,7 +39,11 @@ public class UserServiceImpl implements UserService {
     public boolean login(String email, String password) {
         User u = userRepository.findByEmail(email);
         if (u != null) {
-            return u.getPassword().equals(password);
+            // password=Sifre1234*
+            String hashPassword = u.getPassword(); // klksd&530
+            BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+            boolean isPasswordMatches = bcrypt.matches(password, hashPassword);
+            return isPasswordMatches; //true
         } else {
             return false;
         }
@@ -60,31 +67,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean changePassword(long userId, String password) throws PasswordExistsException, PasswordLengthException, PasswordDoesNotContainDigitException, PasswordDoesNotContainSpecialCharacterException, DatabaseException {
+    public boolean changePassword(long userId, String password) throws PasswordExistsException, PasswordNotValidException, DatabaseException {
         User user = getUserById(userId);
         if (password.equals(user.getPassword())) {
             throw new PasswordExistsException("Password exists");
         }
-        int len = password.length();
-
-        if (len < MIN_PASSWORD_LENGTH) {
-            throw new PasswordLengthException("Error: Password length is " + len + ". It should be greater than " + MIN_PASSWORD_LENGTH + ".");
+        Matcher passwordRuleMatcher = pattern.matcher(password);
+        boolean isPasswordValid = passwordRuleMatcher.matches();
+        if (!isPasswordValid) {
+            throw new PasswordNotValidException("Error: Password can not be appropriate password rules.");
         }
-
-        boolean isContainsDigit = password.matches(".*\\d.*");
-        if (!isContainsDigit) {
-            throw new PasswordDoesNotContainDigitException("Error: Password does not contain digit.");
-        }
-        /*
-        TODO: find special character algorithm
-        Matcher matcher = pattern.matcher(password);
-        boolean containsSpecialCharacter = matcher.matches();
-        if (!containsSpecialCharacter) {
-            throw new PasswordDoesNotContainSpecialCharacterException("Error: Password does not contain special character.");
-        }*/
-
         try {
-            user.setPassword(password);
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String hashPassword = passwordEncoder.encode(password);
+            user.setPassword(hashPassword);
             user = userRepository.save(user);
         } catch (Exception ex) {
             throw new DatabaseException("User couldn't be saved.");

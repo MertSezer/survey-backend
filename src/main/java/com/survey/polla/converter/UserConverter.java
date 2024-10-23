@@ -3,6 +3,7 @@ package com.survey.polla.converter;
 import com.survey.polla.model.dto.SignUpDto;
 import com.survey.polla.model.dto.UserDto;
 import com.survey.polla.model.entity.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,7 +23,9 @@ public class UserConverter {
         user.setUserName(signUpDto.getUserName());
         user.setName(signUpDto.getName());
         user.setSurname(signUpDto.getSurname());
-        user.setPassword(signUpDto.getPassword());
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashPassword = passwordEncoder.encode(signUpDto.getPassword());
+        user.setPassword(hashPassword);
         user.setBirthDate(signUpDto.getBirthDate());
         user.setPhoneNumber(signUpDto.getPhoneNumber());
         user.setProfilePictureURL(signUpDto.getProfilePictureURL());

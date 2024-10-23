@@ -1,8 +1,16 @@
 package com.survey.polla.controller;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class VolkanTest {
+    public static final String PASSWORD_PATTERN =
+            "^(?=.*[0-9])$";
+    private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
+
     public static void main(String[] args) {
-        String password = "KVMN*64"; // return true
+
+        String password = "KVMNk*64"; // return true
         String password2 = "KVMN64"; // return false
         boolean p1 = isValid(password);
         boolean p2 = isValid(password2);
@@ -13,8 +21,8 @@ public class VolkanTest {
     }
 
     public static boolean isValid(String password) {
-        // Write here only.
-        return false;
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
     }
 }
 

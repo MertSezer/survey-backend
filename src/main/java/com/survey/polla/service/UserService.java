@@ -12,7 +12,7 @@ public interface UserService {
 
     boolean signUp(User user) throws UserExistsException;
 
-    boolean changePassword(long userId, String password) throws PasswordExistsException, PasswordLengthException, PasswordDoesNotContainDigitException, PasswordDoesNotContainSpecialCharacterException, DatabaseException;
+    boolean changePassword(long userId, String password) throws PasswordExistsException, PasswordNotValidException, DatabaseException;
 
     List<User> getAll();
 }
