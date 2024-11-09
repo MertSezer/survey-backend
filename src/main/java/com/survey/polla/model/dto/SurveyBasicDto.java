@@ -1,9 +1,31 @@
 package com.survey.polla.model.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class SurveyBasicDto {
+    @Schema(
+            description = "Id of the survey.",
+            name = "id",
+            type = "Long",
+            example = "5")
     private Long id;
+    @Schema(
+            description = "Title of the survey.",
+            name = "title",
+            type = "String",
+            example = "Türkiye Ekonomisi Nasıl?")
     private String title;
+    @Schema(
+            description = "Beginning date of the survey.",
+            name = "beginningDate",
+            type = "Long",
+            example = "1731147101735")
     private Long beginningDate;
+    @Schema(
+            description = "Like count of the survey.",
+            name = "likeCount",
+            type = "Integer",
+            example = "112")
     private int likeCount;
 
     public SurveyBasicDto() {

@@ -72,7 +72,6 @@ public class SurveyController {
         return responseEntity;
     }
 
-    // TODO: create ederken hata alıyorduk bunu çözmeliyiz.
     @PostMapping("/")
     public ResponseEntity<SurveyDto> createSurvey(@RequestBody SurveyDto surveyDto) {
         try {

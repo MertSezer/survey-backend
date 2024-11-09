@@ -62,6 +62,20 @@ public class HashtagServiceImpl implements HashtagService {
             throw new HashtagNotFoundException("Hashtag couldn't be found.");
         }
     }
+
+    @Override
+    public Hashtag getHashtagById(Long id) {
+        Optional<Hashtag> hashtagOptional = hashtagRepository.findById(id);
+        if (hashtagOptional.isPresent())
+        {
+            Hashtag hashtag = hashtagOptional.get();
+            return hashtag;
+        }
+        else
+        {
+            return null;
+        }
+    }
 }
 
 

@@ -168,31 +168,31 @@ public class SurveyServiceImpl implements SurveyService, InitializingBean {
     @Override
     public Survey create(Survey survey) throws HashtagNotProvidedException, NotEnoughChoicesException, CommentShouldNotBeProvidedException {
         // choice leri bul ve chooiceservive ile kaydet. survey e set et.
-        if(survey.getHashtags().size() == 0)
-        {
+        if (survey.getHashtags().size() == 0) {
             throw new HashtagNotProvidedException("Hashtag not there for survey.");
         }
-        if(survey.getChoices().size() < 2)
-        {
+        if (survey.getChoices().size() < 2) {
             throw new NotEnoughChoicesException("Enough choices not provided for survey");
         }
-        if (survey.getComments().size() > 0)
-        {
+        if (survey.getComments().size() > 0) {
             throw new CommentShouldNotBeProvidedException("Comment shouldn't be provided with the survey.");
         }
-        survey.setChoices(null);
+        survey.setComments(new ArrayList<>());
+        List<Choice> toBeSavedChoices = survey.getChoices();
+        survey.setChoices(new ArrayList<>());
         survey = surveyRepository.save(survey);
-        /*
         List<Choice> listOfChoices = new ArrayList<>();
-        for(int i = 0; i < survey.getChoices().size(); i++)
-        {
-            Choice currentChoice = survey.getChoices().get(i);
+        for (int i = 0; i < toBeSavedChoices.size(); i++) {
+            Choice currentChoice = toBeSavedChoices.get(i);
             currentChoice.setSurvey(survey);
             currentChoice = choiceRepository.save(currentChoice);
-
             listOfChoices.add(currentChoice);
         }
         survey.setChoices(listOfChoices);
+        survey = surveyRepository.save(survey);
+
+
+        /*
         // hashtags
 
 

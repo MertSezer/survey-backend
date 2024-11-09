@@ -9,7 +9,6 @@ public class HashtagDto {
             name = "id",
             type = "Long",
             example = "21400246")
-    @JsonIgnore // NOTE: API'de gözükmüyor.
     private Long id;
 
     @Schema(

@@ -1,13 +1,9 @@
 package com.survey.polla.converter;
 
-import com.survey.polla.model.dto.ChoiceDto;
-import com.survey.polla.model.dto.CommentDto;
-import com.survey.polla.model.dto.HashtagDto;
-import com.survey.polla.model.dto.SurveyDto;
-import com.survey.polla.model.entity.Choice;
-import com.survey.polla.model.entity.Comment;
-import com.survey.polla.model.entity.Hashtag;
-import com.survey.polla.model.entity.Survey;
+import com.survey.polla.model.dto.*;
+import com.survey.polla.model.entity.*;
+import com.survey.polla.service.HashtagService;
+import com.survey.polla.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +12,10 @@ import java.util.List;
 
 @Component // Service, Configuration
 public class SurveyConverter {
-
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private HashtagService hashtagService;
     @Autowired
     private HashtagConverter hashtagConverter;
     @Autowired
@@ -36,13 +35,19 @@ public class SurveyConverter {
         converted.setLikeCount(source.getLikeCount());
         converted.setDescription(source.getDescription());
         converted.setPictureURL(source.getPictureURL());
-        converted.setPublisherUser(userConverter.toEntity(source.getPublisherUser()));
+        Long userId = source.getPublisherUserId();
+        try {
+            User publishedUser = userService.getUserById(userId);
+            converted.setPublisherUser(publishedUser);
+        } catch (Exception ex) {
+            System.err.println("Published user is not found on DB. Searched user id: " + userId);
+        }
+
 
         List<Hashtag> hashtags = new ArrayList<>();
-        for (int i = 0; i < source.getHashtags().size(); i++) {
-            HashtagDto hashtagDto = source.getHashtags().get(i);
-            Hashtag hashtag = hashtagConverter.toEntity(hashtagDto);
-            hashtags.add(hashtag);
+        for (int i = 0; i < source.getHashtagIds().size(); i++) {
+            Long hashtagId = source.getHashtagIds().get(i);
+            hashtags.add(hashtagService.getHashtagById(hashtagId));
         }
         converted.setHashtags(hashtags);
 
@@ -55,7 +60,13 @@ public class SurveyConverter {
         converted.setComments(comments);
         List<Choice> choices = new ArrayList<Choice>();
         for (int i = 0; i < source.getChoices().size(); i++) {
-            ChoiceDto choiceDto = source.getChoices().get(i);
+            String choiceText = source.getChoices().get(i);
+            SurveyBasicDto surveyBasicDto = new SurveyBasicDto();
+            surveyBasicDto.setId(source.getId());
+            surveyBasicDto.setLikeCount(source.getLikeCount());
+            surveyBasicDto.setTitle(source.getTitle());
+            surveyBasicDto.setBeginningDate(source.getBeginningDate());
+            ChoiceDto choiceDto = new ChoiceDto(null, 0D, choiceText, 0, surveyBasicDto);
             Choice choice = choiceConverter.toEntity(choiceDto);
             choices.add(choice);
         }
@@ -74,13 +85,14 @@ public class SurveyConverter {
         converted.setLikeCount(source.getLikeCount());
         converted.setDescription(source.getDescription());
         converted.setPictureURL(source.getPictureURL());
-        converted.setPublisherUser(userConverter.toDto(source.getPublisherUser()));
-        List<HashtagDto> hashtags = new ArrayList<>();
+        UserDto userDto = userConverter.toDto(source.getPublisherUser());
+        converted.setPublisherUserId(userDto.getId());
+        List<Long> hashtagIds = new ArrayList<>();
         for (int i = 0; i < source.getHashtags().size(); i++) {
             Hashtag hashtag = source.getHashtags().get(i);
-            hashtags.add(hashtagConverter.toDto(hashtag));
+            hashtagIds.add(hashtag.getId());
         }
-        converted.setHashtags(hashtags);
+        converted.setHashtagIds(hashtagIds);
 
         List<CommentDto> comments = new ArrayList<>();
         for (int i = 0; i < source.getComments().size(); i++) {
@@ -88,14 +100,11 @@ public class SurveyConverter {
         }
         converted.setComments(comments);
 
-        List<ChoiceDto> choiceDtos = new ArrayList<>();
+        List<String> choiceDtos = new ArrayList<>();
         for (int i = 0; i < source.getChoices().size(); i++) {
-            choiceDtos.add(choiceConverter.toDto(source.getChoices().get(i)));
+            choiceDtos.add(source.getChoices().get(i).getText());
         }
         converted.setChoices(choiceDtos);
-
-
         return converted;
-
     }
 }

@@ -21,7 +21,7 @@ public class Survey {
     private long endingDate;
     @Column(name = "picture_url", nullable = true)
     private String pictureURL;
-    @OneToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User publisherUser;
     //TODO: accessedUsers, likedUsers version2'de ele alınacaktır.

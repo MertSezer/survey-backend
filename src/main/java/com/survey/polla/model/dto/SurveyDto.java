@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SurveyDto {
+    @Schema(
+            description = "Id of the survey.",
+            name = "id",
+            type = "Long",
+            example = "5")
     private Long id;
     @Schema(
             description = "Title of the survey.",
@@ -13,28 +18,82 @@ public class SurveyDto {
             type = "String",
             example = "Türkiye Ekonomisi Nasıl?")
     private String title;
+    @Schema(
+            description = "Description of the survey.",
+            name = "description",
+            type = "String",
+            example = "Türkiye Ekonomisi'nin durumunu analiz etmeye çalışan bir ankettir.")
     private String description;
+    @Schema(
+            description = "Beginning date of the survey.",
+            name = "beginningDate",
+            type = "Long",
+            example = "1731147101735")
     private long beginningDate;
+    @Schema(
+            description = "Ending date of the survey.",
+            name = "endingDate",
+            type = "Long",
+            example = "1731147101735")
     private long endingDate;
+    @Schema(
+            description = "Picture URL of the survey.",
+            name = "pictureURL",
+            type = "String",
+            example = "C:\\surveyPicture1.jpg")
     private String pictureURL;
-    private UserDto publisherUser;
-    private List<HashtagDto> hashtags;
+    @Schema(
+            description = "Publisher user Id (which is registered the system before) of the survey.",
+            name = "publisherUserId",
+            type = "Long",
+            example = "1")
+    private Long publisherUserId;
+
+    @Schema(
+            description = "Hashtags id list (which is created the system before) of the survey.",
+            name = "hashtagIds",
+            type = "List",
+            example = "[1, 2, 3]")
+    private List<Long> hashtagIds;
+    @Schema(
+            description = "Like count of the survey.",
+            name = "likeCount",
+            type = "Integer",
+            example = "112")
     private int likeCount;
+    @Schema(
+            description = "Comments of the survey.",
+            name = "comments",
+            type = "List",
+            example = "[{\n" +
+                    "  \"numberOfViolations\": 4,\n" +
+                    "  \"numberOfLikes\": 5,\n" +
+                    "  \"releasedDate\": 1704135351653,\n" +
+                    "  \"text\": \"Text that is written for Comment Dto\",\n" +
+                    "  \"id\": 2345678901,\n" +
+                    "  \"userId\": 15,\n" +
+                    "  \"surveyId\": 16\n" +
+                    "}]")
     private List<CommentDto> comments = new ArrayList<>();
-    private List<ChoiceDto> choices = new ArrayList<>();
+    @Schema(
+            description = "Choices of the survey.",
+            name = "choices",
+            type = "List",
+            example = "[İyi, Kötü]")
+    private List<String> choices = new ArrayList<>();
 
     public SurveyDto() {
     }
 
-    public SurveyDto(Long id, String title, String description, long beginningDate, long endingDate, String pictureURL, UserDto publisherUser, List<HashtagDto> hashtags, int likeCount, List<CommentDto> comments, List<ChoiceDto> choices) {
+    public SurveyDto(Long id, String title, String description, long beginningDate, long endingDate, String pictureURL, Long publisherUserId, List<Long> hashtagIds, int likeCount, List<CommentDto> comments, List<String> choices) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.beginningDate = beginningDate;
         this.endingDate = endingDate;
         this.pictureURL = pictureURL;
-        this.publisherUser = publisherUser;
-        this.hashtags = hashtags;
+        this.publisherUserId = publisherUserId;
+        this.hashtagIds = hashtagIds;
         this.likeCount = likeCount;
         this.comments = comments;
         this.choices = choices;
@@ -88,20 +147,20 @@ public class SurveyDto {
         this.pictureURL = pictureURL;
     }
 
-    public UserDto getPublisherUser() {
-        return publisherUser;
+    public Long getPublisherUserId() {
+        return publisherUserId;
     }
 
-    public void setPublisherUser(UserDto publisherUser) {
-        this.publisherUser = publisherUser;
+    public void setPublisherUserId(Long publisherUserId) {
+        this.publisherUserId = publisherUserId;
     }
 
-    public List<HashtagDto> getHashtags() {
-        return hashtags;
+    public List<Long> getHashtagIds() {
+        return hashtagIds;
     }
 
-    public void setHashtags(List<HashtagDto> hashtags) {
-        this.hashtags = hashtags;
+    public void setHashtagIds(List<Long> hashtagIds) {
+        this.hashtagIds = hashtagIds;
     }
 
     public int getLikeCount() {
@@ -120,11 +179,11 @@ public class SurveyDto {
         this.comments = comments;
     }
 
-    public List<ChoiceDto> getChoices() {
+    public List<String> getChoices() {
         return choices;
     }
 
-    public void setChoices(List<ChoiceDto> choices) {
+    public void setChoices(List<String> choices) {
         this.choices = choices;
     }
 

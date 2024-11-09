@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface HashtagService {
     List<Hashtag> getAll();
-
+    Hashtag getHashtagById(Long id);
     Hashtag saveHashtag(Hashtag hashtag) throws HashtagAlreadyExistsException;
 
     Hashtag updateHashtag(Hashtag hashtag) throws HashtagNotFoundException;
