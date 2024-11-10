@@ -1,7 +1,7 @@
 package com.survey.polla.service;
 
 import com.survey.polla.model.entity.*;
-import com.survey.polla.model.exception.CommentShouldNotBeProvidedException;
+import com.survey.polla.model.exception.NoCommentShouldBeProvidedException;
 import com.survey.polla.model.exception.HashtagNotProvidedException;
 import com.survey.polla.model.exception.NotEnoughChoicesException;
 import com.survey.polla.repository.*;
@@ -166,7 +166,7 @@ public class SurveyServiceImpl implements SurveyService, InitializingBean {
     }
 
     @Override
-    public Survey create(Survey survey) throws HashtagNotProvidedException, NotEnoughChoicesException, CommentShouldNotBeProvidedException {
+    public Survey create(Survey survey) throws HashtagNotProvidedException, NotEnoughChoicesException, NoCommentShouldBeProvidedException {
         // choice leri bul ve chooiceservive ile kaydet. survey e set et.
         if (survey.getHashtags().size() == 0) {
             throw new HashtagNotProvidedException("Hashtag not there for survey.");
@@ -175,7 +175,7 @@ public class SurveyServiceImpl implements SurveyService, InitializingBean {
             throw new NotEnoughChoicesException("Enough choices not provided for survey");
         }
         if (survey.getComments().size() > 0) {
-            throw new CommentShouldNotBeProvidedException("Comment shouldn't be provided with the survey.");
+            throw new NoCommentShouldBeProvidedException("Comment shouldn't be provided with the survey.");
         }
         survey.setComments(new ArrayList<>());
         List<Choice> toBeSavedChoices = survey.getChoices();

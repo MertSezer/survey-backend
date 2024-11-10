@@ -12,7 +12,6 @@ public class ChoiceConverter {
         choice.setId(choiceDto.getId());
         choice.setPercentile(choiceDto.getPercentile());
         choice.setText(choiceDto.getText());
-        //TODO: choice.setSurvey(choiceDto.getSurvey());
         choice.setNumberOfVotes(choiceDto.getNumberOfVotes());
         return choice;
     }
@@ -22,7 +21,6 @@ public class ChoiceConverter {
         choiceDto.setId(choice.getId());
         choiceDto.setText(choice.getText());
         choiceDto.setPercentile(choice.getPercentile());
-        //TODO: choiceDto.setSurvey(choiceDto.getSurvey());
         choiceDto.setNumberOfVotes(choice.getNumberOfVotes());
         return choiceDto;
     }

@@ -26,12 +26,13 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment createComment(Comment comment, long surveyId) throws SurveyNotFoundException, CommentAlreadyExistsException {
-
-        long commentId = comment.getId();
-        Optional<Comment> commentOptional = commentRepository.findById(commentId);
-        if (commentOptional.isPresent())
-        {
-            throw new CommentAlreadyExistsException("Comment already exists");
+        Long commentId = comment.getId();
+        if(commentId != null){
+            Optional<Comment> commentOptional = commentRepository.findById(commentId);
+            if (commentOptional.isPresent())
+            {
+                throw new CommentAlreadyExistsException("Comment already exists");
+            }
         }
         Optional<Survey> optionalSurvey = surveyRepository.findById(surveyId);
         if (optionalSurvey.isPresent()) {

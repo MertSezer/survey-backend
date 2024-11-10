@@ -2,7 +2,10 @@ package com.survey.polla.service;
 
 
 import com.survey.polla.model.entity.User;
-import com.survey.polla.model.exception.*;
+import com.survey.polla.model.exception.DatabaseException;
+import com.survey.polla.model.exception.PasswordExistsException;
+import com.survey.polla.model.exception.PasswordNotValidException;
+import com.survey.polla.model.exception.UserExistsException;
 import com.survey.polla.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -66,6 +69,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    // TODO: when getting new password with begins lowercase (aaAAA12345*), can give error. Check the password pattern.
     @Override
     public boolean changePassword(long userId, String password) throws PasswordExistsException, PasswordNotValidException, DatabaseException {
         User user = getUserById(userId);

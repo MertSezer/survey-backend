@@ -59,6 +59,13 @@ public class CommentController {
         return new ResponseEntity<>(resultCommentDto, HttpStatus.OK);
     }
 
+    @Operation(summary = "Update the comment.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Comment is updated successfully.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CommentUpdatableDto.class))}),
+            @ApiResponse(responseCode = "404", description = "Comment for this survey is not found.", content = @Content)})
+
     @PutMapping("/")
     public ResponseEntity<CommentUpdatableDto> updateComment(@RequestBody CommentUpdatableDto commentDto) {
         Comment comment = commentConverter.toEntity(commentDto);
@@ -69,6 +76,13 @@ public class CommentController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @Operation(summary = "Getting Comments through long variable surveyId.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Comments are returned successfully.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = List.class))}),
+            @ApiResponse(responseCode = "404", description = "Comment for this survey is not found.", content = @Content)})
 
     @GetMapping("/{surveyId}")
     public ResponseEntity<List<CommentDto>> getCommentsBySurveyId(@PathVariable(name = "surveyId") long surveyId) throws Exception {
@@ -85,6 +99,11 @@ public class CommentController {
         return new ResponseEntity<>(commentDtos, HttpStatus.OK);
     }
 
+    @Operation(summary = "Getting all Comments through long variable surveyId.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "All comments are returned successfully. If there is no comments, it returns empty list.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = List.class))})})
     @GetMapping("/")
     public ResponseEntity<List<CommentDto>> getAllComments() {
         List<Comment> comments;
@@ -102,6 +121,13 @@ public class CommentController {
         return new ResponseEntity<>(commentDtos, HttpStatus.OK);
 
     }
+
+    @Operation(summary = "Delete comment through parameter long commentId.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Comment is deleted successfully. It also returns true.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Boolean.class))}),
+            @ApiResponse(responseCode = "404", description = "Comment is not found. It also returns false.", content = @Content)})
 
     @DeleteMapping("/{commentId}")
     public ResponseEntity<Boolean> deleteCommentByCommentId(@PathVariable(name = "commentId") long commentId) throws Exception {

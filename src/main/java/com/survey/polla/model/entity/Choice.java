@@ -12,7 +12,7 @@ public class Choice {
     private Long id;
     @Column(name = "text", nullable = false)
     private String text;
-    //TODO: version 2
+    //TODO: Future Work:
     //private List<User> voters;
     @Column(name = "numberOfVotes", nullable = true)
     private int numberOfVotes;

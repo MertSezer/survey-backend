@@ -30,12 +30,17 @@ import java.util.List;
 @RequestMapping("/api/v1/user")
 public class UserController {
 
-
     @Autowired
     private UserService userService;
     @Autowired
     private UserConverter userConverter;
 
+    @Operation(summary = "Getting user by user id.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User is returned successfully.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserDto.class))}),
+            @ApiResponse(responseCode = "404", description = "User is not found.", content = @Content)})
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable long id) {
         User user = userService.getUserById(id);
@@ -93,9 +98,18 @@ public class UserController {
         return resultEntity;
     }
 
+    @Operation(summary = "Sign-up a new user. Password should include 8 characters at least, and it contains upper and under-case characters and special characters such as: \"*?_\"")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User is signed up successfully.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Boolean.class))}),
+            @ApiResponse(responseCode = "400", description = "User is already created before.", content = @Content)})
     @PostMapping("/sign-up")
     public ResponseEntity<Boolean> signedUp(@RequestBody SignUpDto signUpDto) {
         boolean isSigned = false;
+        if (signUpDto.getPassword().length() < 8) {
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        }
         User convertedUser = userConverter.toEntity(signUpDto);
         try {
             isSigned = userService.signUp(convertedUser);
@@ -105,6 +119,12 @@ public class UserController {
         return new ResponseEntity<>(isSigned, HttpStatus.OK);
     }
 
+    @Operation(summary = "Changing the password of user through parameter ChangePasswordDto changePasswordDto.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Password is used successfully.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Boolean.class))}),
+            @ApiResponse(responseCode = "400", description = "Password is not valid or password already exists.", content = @Content)})
     @PostMapping("/change-password")
     public ResponseEntity<Boolean> changePassword(@RequestBody ChangePasswordDto changePasswordDto) {
         ResponseEntity<Boolean> responseEntity;
@@ -123,5 +143,4 @@ public class UserController {
         }
         return responseEntity;
     }
-    // TODO: Şifrenin hash'lenip saklanmasını çözebiliriz.
 }
