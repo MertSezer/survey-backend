@@ -1,7 +1,19 @@
 package com.survey.polla.model.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class ChangePasswordDto {
+    @Schema(
+            description = "userId of changed password.",
+            name = "userId",
+            type = "Long",
+            example = "123")
     private long userId;
+    @Schema(
+            description = "definition(password) of changed password.",
+            name = "newPassword",
+            type = "String",
+            example = "KVNBU3")
     private String newPassword;
 
     public ChangePasswordDto(long userId, String newPassword) {
