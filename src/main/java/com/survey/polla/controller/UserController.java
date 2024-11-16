@@ -84,7 +84,6 @@ public class UserController {
                     content = @Content)})
     @PostMapping("/secure-login")
     public ResponseEntity<Boolean> login(@RequestBody LoginDto loginDto) {
-        // TODO: loginDto.getEmail().equals(null) why always false? Check that.
         if (loginDto.getEmail() == null || loginDto.getPassword() == null) {
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         }

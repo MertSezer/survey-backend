@@ -4,6 +4,7 @@ import com.survey.polla.model.dto.HashtagDto;
 import com.survey.polla.model.entity.Hashtag;
 import com.survey.polla.model.exception.HashtagAlreadyExistsException;
 import com.survey.polla.model.exception.HashtagNotFoundException;
+import com.survey.polla.model.exception.SurveyExistsforHashtagException;
 
 import java.util.List;
 
@@ -14,5 +15,5 @@ public interface HashtagService {
 
     Hashtag updateHashtag(Hashtag hashtag) throws HashtagNotFoundException;
 
-    void removeHashtag(Long id) throws HashtagNotFoundException;
+    void removeHashtag(Long id) throws HashtagNotFoundException, SurveyExistsforHashtagException;
 }

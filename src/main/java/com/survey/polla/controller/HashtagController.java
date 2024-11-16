@@ -6,6 +6,7 @@ import com.survey.polla.model.dto.HashtagDto;
 import com.survey.polla.model.entity.Hashtag;
 import com.survey.polla.model.exception.HashtagAlreadyExistsException;
 import com.survey.polla.model.exception.HashtagNotFoundException;
+import com.survey.polla.model.exception.SurveyExistsforHashtagException;
 import com.survey.polla.service.HashtagService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -31,13 +32,15 @@ public class HashtagController {
     @Autowired
     private HashtagConverter hashtagConverter;
 
-    // TODO: when removing a hashtag which is assigned to a survey is does not deleted.
     @Operation(summary = "Delete hashtag through parameter long hashtag id.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Hashtag is deleted successfully.",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Void.class))}),
-            @ApiResponse(responseCode = "404", description = "Hashtag is not found.", content = @Content)})
+            @ApiResponse(responseCode = "404", description = "Hashtag is not found.", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Survey exists for hashtag. Hashtag can not be removed.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Void.class))})})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteHashtag(@PathVariable("id") Long hashtagId) {
         try {
@@ -45,6 +48,10 @@ public class HashtagController {
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (HashtagNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch (SurveyExistsforHashtagException e)
+        {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 

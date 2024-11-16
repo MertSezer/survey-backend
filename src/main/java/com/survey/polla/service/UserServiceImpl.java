@@ -18,8 +18,7 @@ import java.util.regex.Pattern;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private static final String PASSWORD_PATTERN =
-            "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{5,10}$";
+    private static final String PASSWORD_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\[\\]{}|;:'\",.<>?/`~])(?=.{5,10}$).*$";
 
     private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
 
@@ -69,7 +68,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    // TODO: when getting new password with begins lowercase (aaAAA12345*), can give error. Check the password pattern.
     @Override
     public boolean changePassword(long userId, String password) throws PasswordExistsException, PasswordNotValidException, DatabaseException {
         User user = getUserById(userId);

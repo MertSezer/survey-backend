@@ -31,7 +31,6 @@ public class User {
     private String country;
     @Column(name = "city", nullable = true)
     private String city;
-    //TODO: city and country değişirse ankete etkisini nasıl çözmeliyiz.
     @Column(name = "authentication_password", nullable = true)
     private String authenticationPassword;
     @Column(name = "authentication_code", nullable = true)

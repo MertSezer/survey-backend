@@ -5,6 +5,7 @@ import com.survey.polla.model.dto.HashtagDto;
 import com.survey.polla.model.entity.Hashtag;
 import com.survey.polla.model.exception.HashtagAlreadyExistsException;
 import com.survey.polla.model.exception.HashtagNotFoundException;
+import com.survey.polla.model.exception.SurveyExistsforHashtagException;
 import com.survey.polla.repository.HashtagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,9 +55,14 @@ public class HashtagServiceImpl implements HashtagService {
     }
 
     @Override
-    public void removeHashtag(Long id) throws HashtagNotFoundException {
+    public void removeHashtag(Long id) throws HashtagNotFoundException, SurveyExistsforHashtagException {
         Optional<Hashtag> optional = hashtagRepository.findById(id);
+        // hashtage baglı anket varsa Exception at. 400 dönüşü yapabiliriz.
         if (optional.isPresent()) {
+            if(!optional.get().getSurveys().isEmpty())
+            {
+                throw new SurveyExistsforHashtagException("Survey already exists for hashtag.");
+            }
             hashtagRepository.delete(optional.get());
         } else {
             throw new HashtagNotFoundException("Hashtag couldn't be found.");
